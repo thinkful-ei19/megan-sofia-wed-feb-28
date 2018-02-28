@@ -23,9 +23,9 @@ const store = (function(){
   //  item.checked = !item.checked;
   //};
 
-  const findAndDelete = function(id) {
-    this.items = this.items.filter(item => item.id !== id);
-  };
+  // const findAndDelete = function(id) {
+  //   this.items = this.items.filter(item => item.id !== id);
+  // };
 
   //const findAndUpdateName = function(id, name) {
   //  try {
@@ -50,10 +50,10 @@ const store = (function(){
     return Object.assign(this.findById(id), newData); 
   };
 
-  // const findAndDelete = function (id){
-  //   const idItem = this.findById(id);
-  //   this.items(idItem, 1);
-  // }
+  const findAndDelete = function (id){
+    const idItem = this.findById(id);
+    this.items.splice(idItem, 1);
+  }
 
   return {
     items: [],
