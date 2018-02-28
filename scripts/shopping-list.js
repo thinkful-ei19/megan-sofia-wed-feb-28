@@ -1,3 +1,5 @@
+'use strict';
+
 /* global store */
 
 // eslint-disable-next-line no-unused-vars
@@ -61,9 +63,9 @@ const shoppingList = (function(){
       const newItemName = $('.js-shopping-list-entry').val();
       $('.js-shopping-list-entry').val('');
       api.createItem(newItemName, (newItem) => {
-      store.addItem(newItem);
-      render();
-     });
+        store.addItem(newItem);
+        render();
+      });
     });
   }  
 
@@ -78,7 +80,12 @@ const shoppingList = (function(){
   function handleItemCheckClicked() {
     $('.js-shopping-list').on('click', '.js-item-toggle', event => {
       const id = getItemIdFromElement(event.currentTarget);
-      store.findAndToggleChecked(id);
+      //store.findAndToggleChecked(id);
+      const item = store.findById(id);
+      api.updateItem(id, { checked: !item.checked }, () => {
+        store.findAndUpdate(id, { checked: !item.checked });
+        render();
+      });
       render();
     });
   }
@@ -89,8 +96,12 @@ const shoppingList = (function(){
       // get the index of the item in store.items
       const id = getItemIdFromElement(event.currentTarget);
       // delete the item
-      store.findAndDelete(id);
+      // store.findAndDelete(id);
       // render the updated shopping list
+      api.deleteItem(id, () => {
+        store.findAndDelete(id);
+        render();
+      });
       render();
     });
   }
@@ -101,6 +112,10 @@ const shoppingList = (function(){
       const id = getItemIdFromElement(event.currentTarget);
       const itemName = $(event.currentTarget).find('.shopping-item').val();
       store.findAndUpdateName(id, itemName);
+      api.updateItem(id, { name: itemName }, () => {
+        store.findAndUpdate(id, { name: itemName });
+        render();
+      });
       render();
     });
   }

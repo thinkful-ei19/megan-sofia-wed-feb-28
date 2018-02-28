@@ -1,4 +1,6 @@
 'use strict';
+/* global store*/
+
 
 const api = (function () {
   const BASE_URL = 'https://thinkful-list-api.herokuapp.com/sm';
@@ -24,20 +26,30 @@ const api = (function () {
 
 
   const updateItem = function(id, updateData, callback){
-  $.ajax( {
-    url : `${BASE_URL}/items/${id}`,
-    method : "PATCH",
-    contentType : 'application/json',
-    data : JSON.stringify(updateData),
-    success : callback
+    $.ajax( {
+      url : `${BASE_URL}/items/${id}`,
+      method : 'PATCH',
+      contentType : 'application/json',
+      data : JSON.stringify(updateData),
+      success : callback
 
-    })
-  }
+    });
+  };
+
+  const deleteItem = function(id, callback){
+    $.ajax( {
+      url : `${BASE_URL}/items/${id}`,
+      method : 'DELETE',
+      contentType : 'application/json',
+      success : callback
+    });
+  };
 
   return {
     getItems,
     createItem,
-    updateItem
+    updateItem,
+    deleteItem
   };
 
 
